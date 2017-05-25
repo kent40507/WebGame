@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>4030E088的網頁遊戲_登入</title>
+        <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+        <script src="script.js"></script>
+        <script type="text/javascript">
+            var BACKEND_URL="http://133.estar.com.tw/~ksu4030e088/05082017/";
+            
+            function login(){
+                var account=$('#login_account').val();
+	            var password=$('#login_password').val();
+                
+                $.post(BACKEND_URL+'php/monitor.php', {action:"login",account:account,password:password}, function(output) {
+		          output=JSON.parse(output);
+        
+                    if(output['status']==1){
+                        localStorage.setItem("LOGIN_STATUS",output['status']);
+                        localStorage.setItem("LOGIN_ID",output['id']);
+                        localStorage.setItem("LOGIN_NAME",output['name']);
+                        localStorage.setItem("LOGIN_IDENTITY",output['identity']);
+                        localStorage.setItem("LOGIN_MONEY",output['money']);
+            
+                        document.location.href=BACKEND_URL+'index.html';
+                    }else{
+                        $('#login-error').text(output['error_msg']);
+                    }
+                }).fail(function() {
+                    showMSG('<strong>P010</strong> 無法取得資料!');
+                }).always(function() {
+                });
+                
+            }//end method login
+            
+            function showMSG(msg){
+                $('#msgbox table td').html(msg);
+                $('#msgbox').show();
+                var x=setTimeout(function(){
+                    $('#msgbox').hide();
+                },3000);
+            }
+            
+            $(window).load(function(){
+                //when window resizing
+                $(window).resize(function(){
+                    fixedSize();
+                });
+                fixedSize();
+                $('body').show();
+            });
+            
+            function fixedSize(){
+                var winH=$(window).height();
+                var winW=$(window).width();
+
+                $('body').css('height',winH+'px');
+                $('body').css('width',winW+'px');
+            }
+            
+            function registered(){
+                document.location.href=BACKEND_URL+'registered.html';
+            }
+        </script>
+    </head>
+    <body>  
+        <div style="margin-left:auto;margin-right:2px;width:100px">
+            <table>
+                <tr style="font-size:16px;">
+                    <td>聯絡我們</td>
+                </tr>
+            </table>
+        </div>
+        <div style="height:200px;"></div>
+         <div style="font-size:38px;text-align:center;width:220;">遊戲系統</div>
+        <table style="margin-left:auto;margin-right:auto;width:220px;">
+           <tr><td colspan="2" id="login-error" style="height:50px; line-height:50px; text-align:center; font-size:15px; color:#ff8a66;"></td></tr>
+            <tr>
+                <td style="14px;">帳號:</td>
+                <td><input id="login_account" type="text" placeholder="帳號" style="margin-left:6px;"></td>
+            </tr>
+            <div style="height:10px;"></div>
+            <tr>
+                <td style="14px;">密碼:</td>
+                <td>
+                <input id="login_password" type="password" placeholder="密碼" style="margin-left:6px;"></td>
+            </tr>
+            </table>
+            <div style="height:10px;"></div>
+            <table style="font-size:38px;margin-left:auto;margin-right:auto;">
+                <tr>
+                    <td><button type="button" onclick="login();">登入</button></td>
+                    <td><button type="button" style="margin-left:10px;" onclick="registered();">註冊新會員</button></td>
+                </tr>
+            </table>
+            <div id="msgbox"><table><tr><td></td></tr></table></div>
+    </body>
+</html>
