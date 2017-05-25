@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>4030E088的網頁遊戲_註冊</title>
+        <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+        
+        <script type="text/javascript">
+             var BACKEND_URL="http://133.estar.com.tw/~ksu4030e088/05082017/";
+             
+             $(document).ready(function(){
+                $('#registered_account').on('input propertychange', function() {
+                     if($('#registered_account').val().length < 4){
+                         $('#account_msg').text("需大於4個位元");
+                    }else if ($('#registered_account').val().length >16){
+                         $('#account_msg').text("需小於16個位元");
+                    }else{
+                        $('#account_msg').text("");
+                    }
+                });
+                $('#registered_password').on('input propertychange', function() {
+                     if($('#registered_password').val().length < 4){
+                         $('#password_msg').text("需大於4個位元");
+                    }else if ($('#registered_password').val().length >16){
+                         $('#password_msg').text("需小於16個位元");
+                    }else{
+                        $('#password_msg').text("");
+                    }
+                });
+                 $('#registered_password_again').on('input propertychange', function() {
+                     if($('#registered_password_again').val().length < 4){
+                         $('#password_again_msg').text("需大於4個位元");
+                    }else if ($('#registered_password_again').val().length >16){
+                         $('#password_again_msg').text("需小於16個位元");
+                    }else{
+                        $('#password_again_msg').text("");
+                    }
+                }); 
+                $('#phone').on('input propertychange', function() {
+                     if($('#phone').val().length > 9){
+                         $('#phone_msg').text("電話格式錯誤，需去0");
+                    }else if ($('#phone').val().length == 9){
+                         $('#phone_msg').text("");
+                    }else{
+                        $('#phone_msg').text("電話格式錯誤，請修正");
+                    }
+                });
+              });
+            
+            function registered(){
+                var name=$('#registered_name').val();
+                var account=$('#registered_account').val();
+	            var password=$('#registered_password').val();
+                var password_again=$('#registered_password_again').val();
+                var gender=$('#gender').val();
+                var identity=$('#identity').val();
+                var phone=$('#phone').val();
+                var ICId=$('#ICId').val();               
+                
+                //05142017 判斷帳號跟密碼的長度,如果未超過4位元或者大於16位元則出現錯誤訊息
+                if(account.length < 4 || account.length > 16){
+                    $('#registered-error').text("帳號格式不符");
+                }else{
+                    if(password.length < 4 || password.length > 16){
+                        $('#registered-error').text("密碼格式不符");
+                    }else{
+                        if(password_again.length < 4 || password_again.length > 16){
+                            $('#registered-error').text("確認密碼格式不符");
+                        }else{
+                            $.post(BACKEND_URL+'php/registered.php', {name:name,account:account,password:password,
+                            password_again:password_again,gender:gender,identity:identity,ICId:ICId,phone:phone}, function(output) {
+                              output=JSON.parse(output);
+                                if(output['status']==1){
+                                    document.location.href=BACKEND_URL+'login.html';
+                                }else{
+                                    $('#registered-error').text(output['error_msg']);
+                                }
+                            }).fail(function() {
+                                showMSG('<strong>P010</strong> 無法取得資料!');
+                            }).always(function() {
+                            });
+                        }                        
+                    }               
+                }
+            }//end method login
+            
+            $(window).load(function(){
+                //when window resizing
+                $(window).resize(function(){
+                    fixedSize();
+                });
+                fixedSize();
+                $('body').show();
+            });
+            
+            function fixedSize(){
+                var winH=$(window).height();
+                var winW=$(window).width();
+
+                $('body').css('height',winH+'px');
+                $('body').css('width',winW+'px');
+            }//end method fixedSize
+            
+             function cancel(){
+                document.location.href=BACKEND_URL+'login.html';
+            }//end method fixedSize    
+            
+            function showMSG(msg){
+                $('#msgbox table td').html(msg);
+                $('#msgbox').show();
+                var x=setTimeout(function(){
+                    $('#msgbox').hide();
+                },3000);
+            }
+        </script>
+    </head>
+    <body>
+        <div style="height:50px;"></div>
+        <div style="heught:50px;font-size:26px;text-align:center;">註冊</div>
+         <div style="height:50px;"></div>
+        <table id="table" style="text-align:center;margin-left:auto;margin-right:auto;">
+            <tr>
+                <td>姓名:</td>
+                <td><input id="registered_name" type="text" placeholder="勿填入特殊字元" style="width:190px;  margin-left:25px;"></td>
+            </tr>
+              <tr><td style="height:10px;"></td></tr>
+            <tr>
+                <td>帳號:</td>
+                <td><input id="registered_account" type="text" style="width:190px; margin-left:25px;" placeholder="4-16 碼，限 英文、數字"></td>
+                <td colspan="2" id="account_msg" style="height:20px; text-align:center; font-size:15px; color:#ff8a66;"></td>
+            </tr>
+              <tr><td style="height:10px;"></td></tr>
+            <tr>
+                <td>密碼:</td>
+                <td><input id="registered_password" type="password" style="width:190px; margin-left:25px;" placeholder="4-16 碼，限 英文、數字"></td>
+                 <td colspan="2" id="password_msg" style="height:20px; text-align:center; font-size:15px; color:#ff8a66;"></td>
+            </tr> 
+              <tr><td style="height:10px;"></td></tr>
+            <tr>
+                <td style="width:180px;">再次輸入:</td>
+                <td><input id="registered_password_again" type="password"  style="width:190px; margin-left:25px;" placeholder="再次輸入密碼"></td>
+                 <td colspan="2" id="password_again_msg" style="height:20px; text-align:center; font-size:15px; color:#ff8a66;"></td>
+            </tr> 
+              <tr><td style="height:10px;"></td></tr>
+            <tr>
+                <td style="width:50px;">電話:</td>
+                <td>
+                    <select style="width:80px; margin-left:30px;" id="ICId">
+                        <option value="1">886+台灣</option>
+                    </select>
+                    <input id="phone" type="text"  style="width:110px;" placeholder="0後面9碼"> 
+                </td>
+                 <td colspan="2" id="phone_msg" style="height:20px; text-align:center; font-size:15px; color:#ff8a66;"></td>
+            </tr> 
+              <tr><td style="height:10px;"></td></tr>                    
+               <tr>
+                <td>性別:</td>
+                <td>
+                    <select style="width:190px; margin-left:25px;" id="gender">
+                        <option value="1">男性</option>
+                        <option value="2">女性</option>
+                    </select>
+                </td>
+            </tr> 
+              <tr><td style="height:10px;" ></td></tr>
+            <tr>
+                <td>身分:</td>
+                <td>
+                    <select style="width:190px;  margin-left:25px;" id="identity">
+                        <option value="3">學生</option>
+                        <option value="2">教師</option>
+                    </select>
+                </td>
+            </tr>                                                   
+        </table>
+        <div style="height:30px;"></div>
+        <table style="font-size:38px;margin-left:auto;margin-right:auto;width:190px;">
+            <tr>
+                <td><button type="button" onclick="registered();" style="font-size:16px; margin-left:50px;">提交</button></td>
+                <td><button type="button" onclick="cancel();" style="font-size:16px;">取消</button></td>
+            </tr>
+               <tr><td colspan="2" id="registered-error" style="height:50px; line-height:50px; text-align:center; font-size:15px; color:#ff8a66;"></td></tr>
+        </table>
+        <div id="msgbox"><table><tr><td></td></tr></table></div>
+    </body>
+    
+</html>
