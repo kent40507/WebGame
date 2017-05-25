@@ -1,0 +1,80 @@
+header div#user {
+    color: black;
+    font-size: 16px;
+    line-height: 40px;
+    float: right;
+}
+header div#user div.button {
+    color: white;
+    background-color: #595959;
+    font-size: 13px;
+    margin: 9px 20px 9px 10px;
+    padding: 0 7px;
+    line-height: 22px;
+    cursor: pointer;
+    float: right;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+header div#user div.button:hover {
+    background-color: #595959;
+}
+#maintable {
+    margin-top: 40px;
+}
+#maintable td.panel {
+    padding-bottom: 70px;
+}
+#maintable td.panel div.category {
+    border-bottom: 1pt solid #4F4FFF;
+    color: #4F4FFF;
+    font-weight: bold;
+    line-height: 30px;
+    margin-left: 50px;
+    margin-top: 30px;
+    margin-bottom: 5px;
+    padding-top: 3px;
+}
+#maintable td.panel div.button {
+    color: #000000;
+    line-height: 30px;
+    padding-left: 50px;
+    padding-top: 3px;
+    cursor: pointer;
+}
+#maintable td.panel div.button:hover {
+    color: #9dbac2;
+}
+#maintable td.panel div.button.selected {
+    color: #9dbac2;
+}
+#maintable td.panel div.button.selected div.panel-arrow {
+    display: block;
+}
+#targetbox {
+    padding: 20px 70px 30px 70px;
+    box-sizing: border-box;
+}
+
+#msgbox{
+    box-shadow: 0px 0px 1px #333;
+    color: #000000;
+    font-size: 22px;
+    position: fixed;
+    z-index: 1000;
+    opacity: 0.9;
+	display: none;
+}
+#msgbox {
+    width: 100%;
+    height: 50px;
+    top: 0;
+    left: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+#message {
+    margin-left: 250px;
+}
